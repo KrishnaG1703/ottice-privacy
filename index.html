@@ -8,14 +8,14 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://krishnag1703.github.io/ottice-privacy/" />
 <meta property="og:title" content="Privacy policy · Otter Vault" />
-<meta property="og:description" content="No servers, no accounts, no tracking. Otter Vault keeps your secrets on your device." />
+<meta property="og:description" content="Your personal vault stays on your device. Teams, if you turn it on, shares keys end-to-end encrypted. No tracking." />
 <meta property="og:image" content="https://krishnag1703.github.io/ottice-privacy/og.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Otter Vault privacy policy." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Privacy policy · Otter Vault" />
-<meta name="twitter:description" content="No servers, no accounts, no tracking. Otter Vault keeps your secrets on your device." />
+<meta name="twitter:description" content="Your personal vault stays on your device. Teams, if you turn it on, shares keys end-to-end encrypted. No tracking." />
 <meta name="twitter:image" content="https://krishnag1703.github.io/ottice-privacy/og.jpg" />
 <link rel="icon" href="icon.png">
 <style>
@@ -43,44 +43,58 @@
 <main>
   <header>
     <img src="icon.png" alt="">
-    <div><h1>Otter Vault privacy policy</h1><p class="date">Last updated: September 14, 2026</p></div>
+    <div><h1>Otter Vault privacy policy</h1><p class="date">Last updated: October 4, 2026</p></div>
   </header>
 
-  <p>Otter Vault is a browser extension that helps you save passwords and API keys to an encrypted vault on your own device. This policy explains what the extension handles and what it does not do.</p>
-
+  <p>Otter Vault is a browser extension that helps you save passwords and API keys to an encrypted vault on your own device, and, if you choose, share some of them with a team. This policy explains what it handles and what it does not do.</p>
   <h2>The short version</h2>
   <div class="summary"><ul>
-    <li>Everything stays on your device. Otter Vault has no servers, no accounts, and makes no network requests.</li>
+    <li>Your personal vault stays on your device. It has no server, no account and makes no network requests.</li>
+    <li><strong>Teams is optional.</strong> If you turn it on, you sign in with Google and the extension talks to one server we run. Keys you share are encrypted on your device first: the server stores them, but cannot read them.</li>
     <li>Nothing is saved unless you click to save it.</li>
-    <li>We do not collect, sell, share, or transfer any of your data, and there is no analytics or tracking.</li>
+    <li>We do not sell or share your data, use it for advertising, or run analytics or tracking.</li>
   </ul></div>
-
-  <h2>What the extension handles</h2>
-  <p><strong>Credentials you choose to save.</strong> When you click <strong>Keep it safe</strong>, the extension saves the password or API key you approved, together with a label (the page title), the username field's value on login forms, the website's origin (for example <code>https://example.com</code>), and the time it was saved. All of this is encrypted with AES-256-GCM before it is written to your browser's local extension storage.</p>
+  <h2>Your personal vault</h2>
+  <p><strong>Credentials you choose to save.</strong> When you click <strong>Keep it safe</strong>, the extension saves the password or API key you approved, together with a label (the page title), the username field's value on login forms, the website's origin (for example <code>https://platform.claude.com</code>), and the time it was saved. All of this is encrypted with AES-256-GCM before it is written to your browser's local extension storage (<code>chrome.storage.local</code>).</p>
   <p><strong>Your vault passphrase.</strong> Your passphrase is used only to derive encryption keys on your device. It is never stored or transmitted. We cannot recover it for you: if you forget it, the vault cannot be decrypted.</p>
-  <p><strong>Page content, in the moment.</strong> To offer help, the extension looks at the web pages you visit: it notices password and API-key fields, and text that looks like a newly generated API key. This inspection happens locally in your browser. Page content is not recorded, stored, or sent anywhere unless you explicitly save a credential.</p>
-  <p><strong>Unlocked session.</strong> While the vault is unlocked, a key needed to use it is kept in the browser's in-memory session storage, which is cleared when the browser closes. The vault locks automatically after the auto-lock time you choose (5, 15, or 30 minutes).</p>
-
-  <h2>What the extension does not do</h2>
+  <p><strong>Page content, in the moment.</strong> To offer help, the extension's content script looks at the web pages you visit: it notices password and API-key fields, and text that looks like a newly generated API key. This happens locally in your browser. Page content is not recorded, stored, or sent anywhere unless you explicitly save a credential.</p>
+  <p><strong>Copying a saved secret.</strong> When you click <strong>Copy</strong> and re-enter your passphrase, the secret is placed on your clipboard. Otter keeps only a SHA-256 hash of it in <code>chrome.storage.session</code> and, after 5 minutes for API keys or 1 minute for passwords, reads the clipboard once: if it still holds that secret, Otter clears it; if you have copied anything else since, it is left untouched. Clipboard contents are never stored or sent anywhere.</p>
+  <p><strong>Unlocked session.</strong> While the vault is unlocked, a key needed to use it is kept in memory in <code>chrome.storage.session</code>, which Chrome clears when the browser closes. It locks automatically after the auto-lock time you choose (5, 15, or 30 minutes).</p>
+  <h2>Otter Vault Teams (only if you turn it on)</h2>
+  <p>Teams lets a group share API keys and passwords. It uses a server we operate at <code>otter-teams.mechaclips.workers.dev</code>, hosted on Cloudflare.</p>
+  <p><strong>Signing in with Google.</strong> When you click <strong>Sign in with Google</strong>, Google tells Otter your email address, that it is verified, and your Google account ID. Otter does not receive your Google password and does not ask for access to anything else in your Google account (the only scopes are <code>openid</code> and <code>email</code>).</p>
+  <p><strong>What the server stores, readable by it:</strong></p>
   <ul>
-    <li>It does not send any data to the developer or to third parties.</li>
-    <li>It does not use analytics, advertising, telemetry, or crash reporting.</li>
-    <li>It does not read your browsing history, and does not access your clipboard.</li>
-    <li>It does not use or transfer your data for purposes unrelated to saving and filling the credentials you approve, for creditworthiness, or for lending.</li>
+    <li>your email address and Google account ID;</li>
+    <li>the public keys of each device you use with Teams, and a 30-day session for each (stored as a hash);</li>
+    <li>which teams you belong to, your role, and the invites sent to or by you;</li>
+    <li>the team's signed member history and access log: which device added, edited, copied or filled which shared key, and when (keys are identified only by a random ID);</li>
+    <li>if you are an owner or admin, your two-step sign-in secret, encrypted with a key held by the server, so it can check your codes;</li>
+    <li>the team's plan and trial dates.</li>
   </ul>
-
+  <p><strong>What the server stores but cannot read:</strong> the shared keys themselves and everything about them (names, sites, usernames, projects, environments, where they are deployed, notes), team and vault names, the team keys, and the recovery kit. These are encrypted on members' devices with keys the server never receives. Your vault passphrase and the printed recovery code never leave your devices.</p>
+  <p><strong>Who can see your shared data.</strong> Members of the team you shared it with, on devices that were added to the team. Members can see each other's email addresses and the team's activity, including what you copied or filled.</p>
+  <p><strong>Hosting.</strong> Cloudflare runs the server and its database as our hosting provider and processes requests to it, including your IP address, to deliver the service.</p>
+  <p><strong>Email.</strong> Teams may send invite and recovery notices by email once email sending is set up. It sends no marketing.</p>
+  <p><strong>Keeping and deleting it.</strong> Team data is kept while the team exists, including after a free trial ends (the team becomes read-only, not deleted). Sessions expire after 30 days and sign-in codes after 10 minutes. To delete your Teams account and the data tied to it, email us at the address below from the email you sign in with, and we will delete it within 30 days. Keys you shared stay with the team for its other members until an admin deletes them. Leaving a team or signing out does not touch your personal vault.</p>
+  <h2>What Otter Vault does not do</h2>
+  <ul>
+    <li>It does not send your personal vault, or anything from the pages you visit, to us or anyone else.</li>
+    <li>It does not use analytics, advertising, telemetry, or crash reporting.</li>
+    <li>It does not read your browsing history.</li>
+    <li>It does not use or transfer your data for purposes unrelated to saving, filling and sharing the credentials you approve, for creditworthiness, or for lending.</li>
+  </ul>
   <h2>Your control</h2>
   <ul>
-    <li>Delete any saved credential from the extension popup.</li>
-    <li>Removing the extension deletes its local storage, including the encrypted vault.</li>
+    <li>Delete any saved credential from the extension popup, and any shared key from the Teams page (if you have access).</li>
+    <li>Teams is off until you sign in, and you can sign out at any time.</li>
+    <li>Removing the extension deletes its local storage, including the encrypted personal vault.</li>
     <li>Deleted data may remain on your device's storage media until the browser overwrites it.</li>
   </ul>
-
   <h2>Chrome Web Store user data policy</h2>
   <p>The use of information received by Otter Vault adheres to the <a href="https://developer.chrome.com/docs/webstore/program-policies/user-data-faq">Chrome Web Store User Data Policy</a>, including the Limited Use requirements.</p>
-
   <h2>Changes and contact</h2>
-  <p>If this policy changes, the updated version will be published at this address with a new date. Questions: <a href="mailto:krishna091718@gmail.com">krishna091718@gmail.com</a>.</p>
+  <p>If this policy changes, the updated version will be published at this address with a new date. Questions or deletion requests: <a href="mailto:krishna091718@gmail.com">krishna091718@gmail.com</a>.</p>
 
   <footer>Otter Vault</footer>
 </main>
